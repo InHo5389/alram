@@ -7,6 +7,7 @@ import alarm.notification.productusernotification.service.ProductUserNotificatio
 import alarm.notification.productusernotification.service.ProductUserNotificationHistory;
 import alarm.product.v1.repository.ProductRepository;
 import alarm.product.v1.service.Product;
+import com.google.common.util.concurrent.RateLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public class ProductNotificationService {
 
     private static final int MAX_NOTIFICATIONS = 550;
     private static final int RATE_LIMIT = 500;
+
+    private final RateLimiter rateLimiter = RateLimiter.create(RATE_LIMIT);
 
     private final ProductRepository productRepository;
     private final ProductUserNotificationRepository productUserNotificationRepository;
@@ -54,6 +57,7 @@ public class ProductNotificationService {
                 break;
             }
             try {
+                rateLimiter.acquire();
                 sendNotificationToUser(product, userNotification);
                 product.decreaseStock();
             } catch (Exception e) {
