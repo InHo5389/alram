@@ -26,10 +26,13 @@ public class ProductNotificationHistory {
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
 
-    public ProductNotificationHistory(Long productId, NotificationStatus status, Product product) {
-        this.productId = productId;
+    private Long latestNotificationUserId;
+
+    public ProductNotificationHistory(Long userId, NotificationStatus status, Product product) {
+        this.productId = product.getId();
         this.restockCount = product.getRestockCount();
         this.status = status;
+        this.latestNotificationUserId = userId;
     }
 
     public void updateStatus(NotificationStatus notificationStatus) {

@@ -29,4 +29,9 @@ public class Product {
     public boolean hasStock(){
         return this.stock > 0;
     }
+
+    // 알림이 가면 재고를 감소하는 postman 테스트용 로직
+    public void decreaseStock(){
+        this.stock--;
+    }
 }

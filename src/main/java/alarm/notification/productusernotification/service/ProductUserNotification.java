@@ -30,4 +30,9 @@ public class ProductUserNotification {
     private boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public void deActivate() {
+        this.isActive = false;
+        this.updatedAt = LocalDateTime.now();
+    }
 }
